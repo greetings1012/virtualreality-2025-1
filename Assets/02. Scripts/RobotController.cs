@@ -11,8 +11,14 @@ public class RobotController : MonoBehaviour
     private Rigidbody rb;
     private UnityEngine.XR.Interaction.Toolkit.Interactables.XRGrabInteractable grabInteractable;
 
+    private Vector3 initialPosition;
+    private Quaternion initialRotation;
+
     private void Start()
     {
+        initialPosition = transform.position;
+        initialRotation = transform.rotation;
+
         rb = GetComponent<Rigidbody>();
         grabInteractable = GetComponent<UnityEngine.XR.Interaction.Toolkit.Interactables.XRGrabInteractable>();
         
@@ -21,6 +27,7 @@ public class RobotController : MonoBehaviour
             rb = gameObject.AddComponent<Rigidbody>();
             rb.constraints = RigidbodyConstraints.FreezeRotation;
         }
+
     }
 
     public void MoveForward()
@@ -58,6 +65,7 @@ public class RobotController : MonoBehaviour
                 RotateRight();
                 break;
             // 추가 동작들은 여기에 구현
+            
         }
     }
 
@@ -80,5 +88,12 @@ public class RobotController : MonoBehaviour
         {
             Debug.Log("타일간의 위치가 맞지 않습니다 ! 타일의 위치를 조정해주세요 !");
         }
+    }
+
+    public void ResetToInitialPosition()
+    {
+        rb.linearVelocity = Vector3.zero;
+        rb.angularVelocity = Vector3.zero;
+        transform.SetPositionAndRotation(initialPosition, initialRotation);
     }
 } 

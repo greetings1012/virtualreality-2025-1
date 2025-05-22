@@ -127,4 +127,29 @@ public class CodeblockGenerator : MonoBehaviour
 
         listBlockObject.Add(co);
     }
+
+    public void ResetCodeBlocks()
+    {
+        foreach (Transform contentChild in blockOrderContent.transform)
+        {
+            Destroy(contentChild.gameObject);
+        }
+        orderBlockObject.Clear();
+
+        if (blockSystem != null)
+        {
+            blockSystem.ClearBlocks();
+        }
+
+        if (selectedObject != null)
+        {
+            Destroy(selectedObject);
+        }
+
+        isSelecting = false;
+        selectedObject = null;
+        selectedObjectRt = null;
+        selectedIndex = -1;
+        listPanelSR.enabled = true;
+    }
 }
