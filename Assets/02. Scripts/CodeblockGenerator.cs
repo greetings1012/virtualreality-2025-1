@@ -103,6 +103,8 @@ public class CodeblockGenerator : MonoBehaviour
         {
             selectedObjectRt.transform.position = mp;
         }
+
+        
     }
 
     public void AddBlock(string blockName, string actionName, int repeatCount)
