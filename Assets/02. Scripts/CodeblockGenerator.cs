@@ -4,6 +4,8 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 using static BlockSystem;
+using UnityEngine.XR.Interaction.Toolkit;
+using UnityEngine.XR.Interaction.Toolkit.Interactors;
 
 public class CodeblockGenerator : MonoBehaviour
 {
@@ -29,6 +31,8 @@ public class CodeblockGenerator : MonoBehaviour
     private GameObject blockOrderContent;
     [SerializeField]
     private GameObject blockPrefab;
+
+    public XRRayInteractor rayInteractor;
 
     private bool isSelecting = false;
     private RectTransform blockListRt = null;
@@ -61,6 +65,11 @@ public class CodeblockGenerator : MonoBehaviour
     void Update()
     {
         Vector2 mp = Input.mousePosition;
+
+        if (rayInteractor.TryGetCurrentUIRaycastResult(out UnityEngine.EventSystems.RaycastResult result))
+        {
+            Debug.Log("UI Hit: " + result.gameObject.name);
+        }
 
         if (Input.GetMouseButtonDown(0) && !isSelecting)
         {
@@ -126,5 +135,30 @@ public class CodeblockGenerator : MonoBehaviour
         co.rt = co.go.GetComponent<RectTransform>();
 
         listBlockObject.Add(co);
+    }
+
+    public void ResetCodeBlocks()
+    {
+        foreach (Transform contentChild in blockOrderContent.transform)
+        {
+            Destroy(contentChild.gameObject);
+        }
+        orderBlockObject.Clear();
+
+        if (blockSystem != null)
+        {
+            blockSystem.ClearBlocks();
+        }
+
+        if (selectedObject != null)
+        {
+            Destroy(selectedObject);
+        }
+
+        isSelecting = false;
+        selectedObject = null;
+        selectedObjectRt = null;
+        selectedIndex = -1;
+        listPanelSR.enabled = true;
     }
 }
