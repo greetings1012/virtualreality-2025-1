@@ -6,6 +6,8 @@ using UnityEngine.UI;
 using static BlockSystem;
 using UnityEngine.XR.Interaction.Toolkit;
 using UnityEngine.XR.Interaction.Toolkit.Interactors;
+using UnityEngine.XR.Interaction.Toolkit.Samples.StarterAssets;
+using UnityEngine.InputSystem;
 
 public class CodeblockGenerator : MonoBehaviour
 {
@@ -16,8 +18,8 @@ public class CodeblockGenerator : MonoBehaviour
         public RectTransform rt;
     }
 
-    private List<CodeObject> listBlockObject = new List<CodeObject>();
-    private List<GameObject> orderBlockObject = new List<GameObject>();
+    public List<CodeObject> listBlockObject = new List<CodeObject>();
+    public List<GameObject> orderBlockObject = new List<GameObject>();
 
     [SerializeField]
     private GameObject blockPanel;
@@ -32,23 +34,11 @@ public class CodeblockGenerator : MonoBehaviour
     [SerializeField]
     private GameObject blockPrefab;
 
-    public XRRayInteractor rayInteractor;
-
-    private bool isSelecting = false;
-    private RectTransform blockListRt = null;
-    private RectTransform blockOrderRt = null;
-    private GameObject selectedObject = null;
-    private RectTransform selectedObjectRt = null;
-    private ScrollRect listPanelSR = null;
     private BlockSystem blockSystem = null;
-    int selectedIndex = -1;
 
     void Start()
     {
         blockSystem = GetComponent<BlockSystem>();
-        blockListRt = blockListPanel.GetComponent<RectTransform>();
-        blockOrderRt = blockOrderPanel.GetComponent<RectTransform>();
-        listPanelSR = blockListPanel.GetComponent<ScrollRect>();
 
         AddBlock("MoveForward", "MoveForward", 1);
         AddBlock("RotateLeft", "RotateLeft", 1);
@@ -64,53 +54,19 @@ public class CodeblockGenerator : MonoBehaviour
 
     void Update()
     {
-        Vector2 mp = Input.mousePosition;
+    }
 
-        if (rayInteractor.TryGetCurrentUIRaycastResult(out UnityEngine.EventSystems.RaycastResult result))
-        {
-            Debug.Log("UI Hit: " + result.gameObject.name);
-        }
+    // XInputSystem 클래스 - 연계 메서드
+    public void AddOrderBlock(GameObject orderBlock)
+    {
+        orderBlockObject.Add(Instantiate(orderBlock, blockOrderContent.transform));
 
-        if (Input.GetMouseButtonDown(0) && !isSelecting)
+        foreach(var i in listBlockObject)
         {
-            if (RectTransformUtility.RectangleContainsScreenPoint(blockListRt, mp))
+            if (i.go.name + "(Clone)" == orderBlock.name)
             {
-                for (int i = 0; i < listBlockObject.Count; ++i)
-                {
-                    if (RectTransformUtility.RectangleContainsScreenPoint(listBlockObject[i].rt, mp))
-                    {
-                        isSelecting = true;
-
-                        selectedObject = Instantiate(listBlockObject[i].go, blockPanel.transform);
-                        selectedObjectRt = selectedObject.GetComponent<RectTransform>();
-
-                        selectedIndex = i;
-
-                        listPanelSR.enabled = false;
-
-                        break;
-                    }
-                }
+                blockSystem.AddBlock(i.block);
             }
-        }
-        else if (Input.GetMouseButtonUp(0) && isSelecting)
-        {
-            selectedObject.SetActive(false);
-            Destroy(selectedObject, 3.0F);
-
-            isSelecting = false;
-            listPanelSR.enabled = true;
-
-            if (RectTransformUtility.RectangleContainsScreenPoint(blockOrderRt, mp))
-            {
-                orderBlockObject.Add(Instantiate(listBlockObject[selectedIndex].go, blockOrderContent.transform));
-                blockSystem.AddBlock(listBlockObject[selectedIndex].block);
-            }
-        }
-
-        if (isSelecting)
-        {
-            selectedObjectRt.transform.position = mp;
         }
     }
 
@@ -125,6 +81,7 @@ public class CodeblockGenerator : MonoBehaviour
 
         co.block = cb;
         co.go = Instantiate(blockPrefab, blockListContent.transform);
+        co.go.name = actionName;
 
         Texture tex = (Texture)Resources.Load(actionName);
         if (tex != null)
@@ -149,16 +106,5 @@ public class CodeblockGenerator : MonoBehaviour
         {
             blockSystem.ClearBlocks();
         }
-
-        if (selectedObject != null)
-        {
-            Destroy(selectedObject);
-        }
-
-        isSelecting = false;
-        selectedObject = null;
-        selectedObjectRt = null;
-        selectedIndex = -1;
-        listPanelSR.enabled = true;
     }
 }
