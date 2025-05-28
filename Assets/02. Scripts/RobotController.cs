@@ -15,6 +15,8 @@ public class RobotController : MonoBehaviour
 
     private Vector3 initialPosition;
     private Quaternion initialRotation;
+  
+    private GameSystem gameSystem;
 
     private void Start()
     {
@@ -23,13 +25,34 @@ public class RobotController : MonoBehaviour
 
         rb = GetComponent<Rigidbody>();
         grabInteractable = GetComponent<UnityEngine.XR.Interaction.Toolkit.Interactables.XRGrabInteractable>();
-        
+
+        gameSystem = GameObject.Find("GameSystem").GetComponent<GameSystem>();
         if (rb == null)
         {
             rb = gameObject.AddComponent<Rigidbody>();
             rb.constraints = RigidbodyConstraints.FreezeRotation;
         }
 
+    }
+
+    void Update()
+    {
+        Vector3 origin = transform.position + Vector3.up * 0.5f;
+        float checkDistance = 1.0f;
+
+        RaycastHit hit;
+        if (Physics.Raycast(origin, Vector3.down, out hit, checkDistance))
+        {
+            if (!hit.collider.CompareTag("Tile"))
+            {
+                gameSystem.GameOver();
+            }
+        }
+        else
+        {
+            Debug.Log("오류 발2");
+
+        }
     }
 
     public void MoveForward()
