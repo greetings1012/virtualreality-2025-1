@@ -64,7 +64,7 @@ public class BlockSystem : MonoBehaviour
             blockSequence.RemoveAt(index);
         }
     }
-
+    
     private bool IsForBlock(CodeBlock codeBlock)
     {
         return codeBlock.blockName == FOR_BLOCK_NAME;

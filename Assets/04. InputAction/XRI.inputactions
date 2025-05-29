@@ -1,0 +1,54 @@
+{
+    "name": "XRI",
+    "maps": [
+        {
+            "name": "XRAction",
+            "id": "6a796fce-6b87-4b03-97af-b67f680ade48",
+            "actions": [
+                {
+                    "name": "LEFT",
+                    "type": "Button",
+                    "id": "d3c026aa-00db-4f4c-97f1-07152d3e0533",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "Press(behavior=2)",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "RIGHT",
+                    "type": "Button",
+                    "id": "2460ad3a-249d-46a1-a9c9-8b398adf1b00",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "Press(behavior=2)",
+                    "initialStateCheck": false
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "2799fbe9-a049-4cc4-9502-eef83b41742d",
+                    "path": "<XRController>{RightHand}/{PrimaryButton}",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "RIGHT",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "264ea620-105d-41af-abf2-c10b079a22ef",
+                    "path": "<XRController>{LeftHand}/{PrimaryButton}",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "LEFT",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
+        }
+    ],
+    "controlSchemes": []
+}

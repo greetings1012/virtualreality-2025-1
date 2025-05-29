@@ -15,7 +15,7 @@ public class RobotController : MonoBehaviour
 
     private Vector3 initialPosition;
     private Quaternion initialRotation;
-  
+    
     private GameSystem gameSystem;
 
     private void Start()
@@ -32,7 +32,6 @@ public class RobotController : MonoBehaviour
             rb = gameObject.AddComponent<Rigidbody>();
             rb.constraints = RigidbodyConstraints.FreezeRotation;
         }
-
     }
 
     void Update()
@@ -50,8 +49,7 @@ public class RobotController : MonoBehaviour
         }
         else
         {
-            Debug.Log("오류 발2");
-
+            Debug.Log("오류 발생");
         }
     }
 
