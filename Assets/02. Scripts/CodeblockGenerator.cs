@@ -56,17 +56,20 @@ public class CodeblockGenerator : MonoBehaviour
     {
     }
 
-    // XInputSystem Å¬·¡½º - ¿¬°è ¸Þ¼­µå
+    // XInputSystem Ã…Â¬Â·Â¡Â½Âº - Â¿Â¬Â°Ã¨ Â¸ÃžÂ¼Â­ÂµÃ¥
     public void AddOrderBlock(GameObject orderBlock)
     {
         orderBlockObject.Add(Instantiate(orderBlock, blockOrderContent.transform));
-
+        
         foreach(var i in listBlockObject)
         {
             if (i.go.name + "(Clone)" == orderBlock.name)
             {
                 blockSystem.AddBlock(i.block);
             }
+
+            selectedObject = null;
+            selectedIndex = -1;
         }
     }
 

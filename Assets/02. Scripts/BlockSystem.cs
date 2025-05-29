@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using static BlockSystem;
 using System.Collections;
+using static Unity.Collections.AllocatorManager;
+using System;
 
 public class BlockSystem : MonoBehaviour
 {
@@ -55,6 +57,14 @@ public class BlockSystem : MonoBehaviour
         }
     }
 
+    public void RemoveBlock(int index)
+    {
+        if (index >= 0 && index < blockSequence.Count)
+        {
+            blockSequence.RemoveAt(index);
+        }
+    }
+    
     private bool IsForBlock(CodeBlock codeBlock)
     {
         return codeBlock.blockName == FOR_BLOCK_NAME;
