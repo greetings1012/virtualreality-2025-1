@@ -83,21 +83,61 @@ public class CodeblockGenerator : MonoBehaviour
                     }
                 }
             }
+            else if (RectTransformUtility.RectangleContainsScreenPoint(blockOrderRt, mp))
+            {
+                for (int i = 0; i < orderBlockObject.Count; ++i)
+                {
+                    RectTransform rt = orderBlockObject[i].GetComponent<RectTransform>();
+                    if (RectTransformUtility.RectangleContainsScreenPoint(rt, mp))
+                    {
+                      
+                        isSelecting = true;
+                        selectedObject = orderBlockObject[i];
+                        selectedObjectRt = selectedObject.GetComponent<RectTransform>();
+                        selectedIndex = i;
+                      
+                        break;
+                    }
+                }
+            }
         }
         else if (Input.GetMouseButtonUp(0) && isSelecting)
         {
-            selectedObject.SetActive(false);
-            Destroy(selectedObject, 3.0F);
-
             isSelecting = false;
             listPanelSR.enabled = true;
 
-            if (RectTransformUtility.RectangleContainsScreenPoint(blockOrderRt, mp))
+           
+            if (selectedObject != null && !orderBlockObject.Contains(selectedObject))
             {
-                orderBlockObject.Add(Instantiate(listBlockObject[selectedIndex].go, blockOrderContent.transform));
-                blockSystem.AddBlock(listBlockObject[selectedIndex].block);
+                selectedObject.SetActive(false);
+                Destroy(selectedObject, 3.0f);
+
+                if (RectTransformUtility.RectangleContainsScreenPoint(blockOrderRt, mp))
+                {
+                    GameObject newObj = Instantiate(listBlockObject[selectedIndex].go, blockOrderContent.transform);
+                    orderBlockObject.Add(newObj);
+                    blockSystem.AddBlock(listBlockObject[selectedIndex].block);
+                }
             }
+         
+            else if (orderBlockObject.Contains(selectedObject))
+            {
+        
+                if (!RectTransformUtility.RectangleContainsScreenPoint(blockOrderRt, mp))
+                {
+                    orderBlockObject.Remove(selectedObject);
+                    blockSystem.RemoveBlock(selectedIndex);
+                    Destroy(selectedObject);
+                    selectedObject = null;
+                    selectedIndex = -1;
+                    return;
+                }
+            }
+
+            selectedObject = null;
+            selectedIndex = -1;
         }
+
 
         if (isSelecting)
         {
@@ -126,5 +166,30 @@ public class CodeblockGenerator : MonoBehaviour
         co.rt = co.go.GetComponent<RectTransform>();
 
         listBlockObject.Add(co);
+    }
+
+    public void ResetCodeBlocks()
+    {
+        foreach (Transform contentChild in blockOrderContent.transform)
+        {
+            Destroy(contentChild.gameObject);
+        }
+        orderBlockObject.Clear();
+
+        if (blockSystem != null)
+        {
+            blockSystem.ClearBlocks();
+        }
+
+        if (selectedObject != null)
+        {
+            Destroy(selectedObject);
+        }
+
+        isSelecting = false;
+        selectedObject = null;
+        selectedObjectRt = null;
+        selectedIndex = -1;
+        listPanelSR.enabled = true;
     }
 }
