@@ -21,12 +21,14 @@ public class GameSystem : MonoBehaviour
 
     private IEnumerator ShowGameOverPanel()
     {
-        gameOverPanel.SetActive(true);
-        Time.timeScale = 0f;
+        Debug.Log("234");
+        yield return null;
+        //gameOverPanel.SetActive(true);
+        //Time.timeScale = 0f;
+        
+        //yield return new WaitForSecondsRealtime(5f);  
 
-        yield return new WaitForSecondsRealtime(5f);  
-
-        Time.timeScale = 1f;
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+        //Time.timeScale = 1f;
+        //SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 }

@@ -1,13 +1,7 @@
-using NUnit.Framework;
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 using static BlockSystem;
-using UnityEngine.XR.Interaction.Toolkit;
-using UnityEngine.XR.Interaction.Toolkit.Interactors;
-using UnityEngine.XR.Interaction.Toolkit.Samples.StarterAssets;
-using UnityEngine.InputSystem;
 
 public class CodeblockGenerator : MonoBehaviour
 {
@@ -56,7 +50,6 @@ public class CodeblockGenerator : MonoBehaviour
     {
     }
 
-    // XInputSystem Å¬·¡½º - ¿¬°è ¸Þ¼­µå
     public void AddOrderBlock(GameObject orderBlock)
     {
         orderBlockObject.Add(Instantiate(orderBlock, blockOrderContent.transform));
@@ -67,9 +60,6 @@ public class CodeblockGenerator : MonoBehaviour
             {
                 blockSystem.AddBlock(i.block);
             }
-
-            selectedObject = null;
-            selectedIndex = -1;
         }
     }
 
@@ -99,15 +89,15 @@ public class CodeblockGenerator : MonoBehaviour
 
     public void ResetCodeBlocks()
     {
-        foreach (Transform contentChild in blockOrderContent.transform)
-        {
-            Destroy(contentChild.gameObject);
-        }
-        orderBlockObject.Clear();
+        //foreach (Transform contentChild in blockOrderContent.transform)
+        //{
+        //    Destroy(contentChild.gameObject);
+        //}
+        //orderBlockObject.Clear();
 
-        if (blockSystem != null)
-        {
-            blockSystem.ClearBlocks();
-        }
+        //if (blockSystem != null)
+        //{
+        //    blockSystem.ClearBlocks();
+        //}
     }
 }

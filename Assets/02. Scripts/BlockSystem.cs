@@ -21,7 +21,7 @@ public class BlockSystem : MonoBehaviour
     public RobotController robotController;
 
     [Header("Execution Settings")]
-    public float executionDelay = 0.5f;
+    public float executionDelay = 0.5F;
     private int currentBlockIndex = 0;
     private bool isExecuting = false;
 
@@ -92,7 +92,9 @@ public class BlockSystem : MonoBehaviour
     {
         for (int i = 0; i < repeatCount; i++)
         {
+            robotController.commandCompleted = false;
             robotController.ExecuteAction(actionBlock.actionName);
+            yield return new WaitUntil(() => robotController.commandCompleted);
             yield return new WaitForSeconds(executionDelay);
         }
 
@@ -109,7 +111,9 @@ public class BlockSystem : MonoBehaviour
     {
         for (int i = 0; i < currentBlock.repeatCount; i++)
         {
+            robotController.commandCompleted = false;
             robotController.ExecuteAction(currentBlock.actionName);
+            yield return new WaitUntil(() => robotController.commandCompleted);
             yield return new WaitForSeconds(executionDelay);
         }
 
