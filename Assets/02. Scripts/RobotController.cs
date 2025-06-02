@@ -17,6 +17,10 @@ public class RobotController : MonoBehaviour
     private Quaternion initialRotation;
   
     private GameSystem gameSystem;
+    // 게임 클리어를 위한 아이템을 먹었는지 확인하는 변수
+    public bool isClearCondition = false;
+    // 게임 클리어를 했는지 확인하는 변
+    public bool isGameClear = false;
 
     private void Start()
     {
@@ -26,32 +30,49 @@ public class RobotController : MonoBehaviour
         rb = GetComponent<Rigidbody>();
         grabInteractable = GetComponent<UnityEngine.XR.Interaction.Toolkit.Interactables.XRGrabInteractable>();
 
-        gameSystem = GameObject.Find("GameSystem").GetComponent<GameSystem>();
+        //gameSystem = GameObject.Find("GameSystem").GetComponent<GameSystem>();
         if (rb == null)
         {
             rb = gameObject.AddComponent<Rigidbody>();
-            rb.constraints = RigidbodyConstraints.FreezeRotation;
         }
+
+        rb.constraints = RigidbodyConstraints.FreezeRotation;
 
     }
 
-    void Update()
+    //void Update()
+    //{
+    //    //Vector3 origin = transform.position + Vector3.up * 0.5f;
+    //    //float checkDistance = 1.0f;
+
+    //    //RaycastHit hit;
+    //    //if (Physics.Raycast(origin, Vector3.down, out hit, checkDistance))
+    //    //{
+    //    //    if (!hit.collider.CompareTag("Tile"))
+    //    //    {
+    //    //        //gameSystem.GameOver();
+    //    //    }
+    //    //}
+    //    //else
+    //    //{
+    //    //    Debug.Log("오류 발생");
+
+    //    //}
+    //}
+
+    void OnTriggerEnter(Collider other)
     {
-        Vector3 origin = transform.position + Vector3.up * 0.5f;
-        float checkDistance = 1.0f;
-
-        RaycastHit hit;
-        if (Physics.Raycast(origin, Vector3.down, out hit, checkDistance))
+        if (other.CompareTag("GoalItem"))
         {
-            if (!hit.collider.CompareTag("Tile"))
-            {
-                gameSystem.GameOver();
-            }
+            Debug.Log("게임 클리어를 위한 조건 만족");
+            isClearCondition = true;
+            Destroy(other.gameObject);
         }
-        else
-        {
-            Debug.Log("오류 발2");
 
+        if (other.CompareTag("Goal"))
+        {
+            Debug.Log("게임 클리어");
+            isGameClear = true;
         }
     }
 
@@ -59,7 +80,7 @@ public class RobotController : MonoBehaviour
     {
         float moveDistance = 0.1f;
         Vector3 targetPosition = transform.position + transform.forward * desiredDeltaPosition;
-        
+
         // 지속적으로 움직여야 하는게 아니라서 델타타임 필요 없을것같아요.
         //transform.Translate(Vector3.forward * desiredDeltaPosition);
         // transform.Translate(Vector3.forward * moveSpeed * Time.deltaTime);
