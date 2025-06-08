@@ -11,6 +11,9 @@ public class RobotController : MonoBehaviour
     [SerializeField]
     private float robotMovementTotalTime = 1.5F; // 로봇이 한 보폭을 가는데 걸리는 총 시간 (기본: 1.5초)
 
+    [SerializeField]
+    private Animator animator;
+
     // 로봇의 한 보폭(거리)에 관한 예측값 (오차가 다소 있다.)
     private float desiredDeltaPosition = 5.0F;
 
@@ -26,6 +29,8 @@ public class RobotController : MonoBehaviour
 
     private void Start()
     {
+        animator = GetComponent<Animator>();
+
         initialPosition = transform.position;
         initialRotation = transform.rotation;
 
@@ -77,12 +82,18 @@ public class RobotController : MonoBehaviour
     {
         float step = Time.deltaTime / robotMovementTotalTime;
         float movedDistance = 0.0F;
+        float totalTime = 0.0F;
 
         while (movedDistance <= 1.0F)
         {
+            totalTime += Time.deltaTime;
+
             float beautifulValue = Sigmoid(movedDistance);
             transform.position = Vector3.Lerp(origin, targetPosition, beautifulValue);
             movedDistance += step;
+
+            animator.SetFloat("vel", totalTime);
+
             yield return null;
         }
 

@@ -9,18 +9,11 @@ public class CodeblockGenerator : MonoBehaviour
     {
         public CodeBlock block;
         public GameObject go;
-        public RectTransform rt;
     }
 
     public List<CodeObject> listBlockObject = new List<CodeObject>();
     public List<GameObject> orderBlockObject = new List<GameObject>();
 
-    [SerializeField]
-    private GameObject blockPanel;
-    [SerializeField]
-    private GameObject blockListPanel;
-    [SerializeField]
-    private GameObject blockOrderPanel;
     [SerializeField]
     private GameObject blockListContent;
     [SerializeField]
@@ -72,17 +65,11 @@ public class CodeblockGenerator : MonoBehaviour
         cb.actionName = actionName;
         cb.repeatCount = repeatCount;
 
+        string prefabsName = "Prefabs/" + actionName;
+
         co.block = cb;
-        co.go = Instantiate(blockPrefab, blockListContent.transform);
+        co.go = Instantiate((GameObject)Resources.Load(prefabsName), blockListContent.transform);
         co.go.name = actionName;
-
-        Texture tex = (Texture)Resources.Load(actionName);
-        if (tex != null)
-        {
-            co.go.GetComponent<RawImage>().texture = tex;
-        }
-
-        co.rt = co.go.GetComponent<RectTransform>();
 
         listBlockObject.Add(co);
     }

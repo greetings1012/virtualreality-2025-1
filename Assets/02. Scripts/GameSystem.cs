@@ -21,7 +21,6 @@ public class GameSystem : MonoBehaviour
 
     private IEnumerator ShowGameOverPanel()
     {
-        Debug.Log("234");
         yield return null;
         //gameOverPanel.SetActive(true);
         //Time.timeScale = 0f;

@@ -1,10 +1,9 @@
-using Oculus.Interaction;
-using Unity.XR.CoreUtils;
+using Mono.Cecil;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
 using UnityEngine.XR.Interaction.Toolkit.Interactors;
-using static OVRPlugin;
 
 public class XRInputSystem : MonoBehaviour
 {
@@ -13,7 +12,7 @@ public class XRInputSystem : MonoBehaviour
     [SerializeField]
     private InputActionReference xButtonAction;
     [SerializeField]
-    private NearFarInteractor[] interactors;
+    private GameObject[] interactors;
 
     private CodeblockGenerator gen;
 
@@ -24,6 +23,33 @@ public class XRInputSystem : MonoBehaviour
 
     private bool isSelecting = false;
     private GameObject selectedObject = null;
+    private int interactedIdx = -1;
+
+    class CustomRaycastResult
+    {
+        public GameObject go;
+        public GameObject parent;
+    }
+
+    bool CustomRaycastAABB(GameObject interactors, out CustomRaycastResult result, string mask)
+    {
+        result = new CustomRaycastResult();
+
+        Ray ray = new Ray();
+        ray.direction = interactors.transform.forward;
+        ray.origin = interactors.transform.position;
+        Debug.DrawRay(ray.origin, ray.direction, Color.red, 1.0F);
+
+        RaycastHit hit;
+        if (Physics.Raycast(ray, out hit, 10000.0F, LayerMask.GetMask(mask)))
+        {
+            result.parent = hit.transform.parent.gameObject;
+            result.go = hit.transform.gameObject;
+            return true;
+        }
+
+        return false;
+    }
 
     private void Start()
     {
@@ -36,15 +62,7 @@ public class XRInputSystem : MonoBehaviour
     {
         if(isSelecting)
         {
-            for (int i = 0; i < interactors.Length; ++i)
-            {
-                if (interactors[i].TryGetCurrentUIRaycastResult(out UnityEngine.EventSystems.RaycastResult result))
-                {
-                    selectedObject.transform.position = result.worldPosition;
-                }
-            }
-
-            //Matrix4x4 rotationMatrix = Matrix4x4.Rotate(cam.transform.rotation);
+            selectedObject.transform.position = interactors[interactedIdx].transform.position;
         }
     }
 
@@ -68,36 +86,42 @@ public class XRInputSystem : MonoBehaviour
     {
         for (int i = 0; i < interactors.Length; ++i)
         {
-            if (interactors[i].TryGetCurrentUIRaycastResult(out UnityEngine.EventSystems.RaycastResult result))
+            if (CustomRaycastAABB(interactors[i], out CustomRaycastResult result, "Block"))
             {
                 foreach (var t in gen.listBlockObject)
                 {
-                    if (t.block.actionName == result.gameObject.name)
+                    if (t.block.actionName == result.go.name)
                     {
+                        interactedIdx = i;
                         isSelecting = true;
-                        selectedObject = Instantiate(result.gameObject, blockPanel.transform);
+                        selectedObject = Instantiate((GameObject)Resources.Load("Prefabs/" + result.parent.name), blockPanel.transform);
                         selectedObject.layer = LayerMask.GetMask("Default"); // Raycast에 안걸리도록 바꾸기
                     }
                 }
+
+                return;
             }
         }
+
+        interactedIdx = -1;
     }
 
     private void OnButtonReleased(InputAction.CallbackContext ctx)
     {
-        for (int i = 0; i < interactors.Length; ++i)
+        if (interactedIdx == -1)
+            return;
+
+        if (CustomRaycastAABB(interactors[interactedIdx], out CustomRaycastResult result, "Panel"))
         {
-            if (interactors[i].TryGetCurrentUIRaycastResult(out UnityEngine.EventSystems.RaycastResult result))
+            if (outputPanel.name == result.go.name)
             {
-                if (outputPanel.name == result.gameObject.transform.parent.name)
-                {
-                    //selectedObject.layer = LayerMask.NameToLayer("UI"); // Layer를 다시 UI로
-                    gen.AddOrderBlock(selectedObject);
-                }
+                //selectedObject.layer = LayerMask.NameToLayer("Block"); // Layer를 다시 Block으로
+                gen.AddOrderBlock(selectedObject);
             }
         }
 
         Destroy(selectedObject);
         isSelecting = false;
+        interactedIdx = -1;
     }
 }
