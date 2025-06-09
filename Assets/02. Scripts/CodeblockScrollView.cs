@@ -24,22 +24,21 @@ public class CodeblockFlowview : MonoBehaviour
 
         if (isHorizontal)
         {
-            // 첫 번째 오브젝트 기준 설정
-            GameOrderPanel.transform.GetChild(0).transform.LookAt(XRCamera.transform);
+            GameOrderPanel.transform.GetChild(0).transform.rotation = transform.rotation;
             GameOrderPanel.transform.GetChild(0).transform.position = transform.position
                 - GameOrderPanel.transform.GetChild(0).transform.forward * 0.07F
-                - GameOrderPanel.transform.GetChild(0).transform.right * 0.7F;
+                - GameOrderPanel.transform.GetChild(0).transform.right * 0.7F
+                - GameOrderPanel.transform.GetChild(0).transform.up * 0.15F;
 
             for (int i = 1; i < GameOrderPanel.transform.childCount; i++)
             {
                 GameOrderPanel.transform.GetChild(i).transform.rotation = GameOrderPanel.transform.GetChild(i - 1).transform.rotation;
                 GameOrderPanel.transform.GetChild(i).transform.position = GameOrderPanel.transform.GetChild(i - 1).transform.position
-                    + GameOrderPanel.transform.GetChild(i - 1).transform.right * 0.3F; // 0.3 -> scale transform
+                    + GameOrderPanel.transform.GetChild(i - 1).transform.right * 0.31F; // 0.3 -> scale transform
             }
         }
         else
         {
-            // 첫 번째 오브젝트 기준 설정
             GameOrderPanel.transform.GetChild(0).transform.rotation = transform.rotation;
             GameOrderPanel.transform.GetChild(0).transform.position = transform.position
                 - GameOrderPanel.transform.GetChild(0).transform.forward * 0.07F
