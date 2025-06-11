@@ -719,7 +719,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   blockSequence: []
-  robotController: {fileID: 0}
+  robotController: {fileID: 1827246872}
   executionDelay: 0.5
 --- !u!4 &124789299
 Transform:
@@ -7634,7 +7634,7 @@ Rigidbody:
   m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 80
+  m_Constraints: 112
   m_CollisionDetection: 0
 --- !u!114 &1827246872
 MonoBehaviour:
@@ -8461,10 +8461,6 @@ PrefabInstance:
     - target: {fileID: 1318303238961424, guid: 3470766f22e216142aa097c5eaa5a1c1, type: 3}
       propertyPath: m_Name
       value: DEST
-      objectReference: {fileID: 0}
-    - target: {fileID: 1318303238961424, guid: 3470766f22e216142aa097c5eaa5a1c1, type: 3}
-      propertyPath: m_TagString
-      value: Goal
       objectReference: {fileID: 0}
     - target: {fileID: 4315780710204044, guid: 3470766f22e216142aa097c5eaa5a1c1, type: 3}
       propertyPath: m_LocalScale.x
@@ -9715,24 +9711,24 @@ Transform:
 SceneRoots:
   m_ObjectHideFlags: 0
   m_Roots:
+  - {fileID: 1635316743}
+  - {fileID: 706104292}
   - {fileID: 624531456}
   - {fileID: 203844589}
   - {fileID: 1549290753}
   - {fileID: 979949091}
   - {fileID: 1029938536}
+  - {fileID: 617799602}
+  - {fileID: 124789299}
   - {fileID: 1812376934}
+  - {fileID: 1732936356}
+  - {fileID: 44482621}
   - {fileID: 167689082}
   - {fileID: 1858198666}
   - {fileID: 605771256}
-  - {fileID: 1605719533}
-  - {fileID: 706104292}
-  - {fileID: 1635316743}
-  - {fileID: 617799602}
-  - {fileID: 124789299}
-  - {fileID: 1732936356}
-  - {fileID: 44482621}
   - {fileID: 1179501792}
   - {fileID: 717758683}
   - {fileID: 584003988}
   - {fileID: 953360946}
   - {fileID: 713652735}
+  - {fileID: 1605719533}
