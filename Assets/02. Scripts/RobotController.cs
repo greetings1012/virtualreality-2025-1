@@ -9,8 +9,8 @@ public class RobotController : MonoBehaviour
     [SerializeField]
     private float desiredRotationEuler = 90.0F;
     [Header("Movement Settings")]
-    [SerializeField]
-    private float robotMovementTotalTime = 1.5F; // 로봇이 한 보폭을 가는데 걸리는 총 시간 (기본: 1.5초)
+
+    private float robotMovementTotalTime = 0.8F; // 로봇이 한 보폭을 가는데 걸리는 총 시간 (기본: 1.5초)
 
     private Animator animator;
 
@@ -185,6 +185,7 @@ public class RobotController : MonoBehaviour
             Vector3 center = hit.transform.gameObject.GetComponent<Renderer>().bounds.center;
 
             targetPos = new Vector3(center.x, targetPos.y, center.z);
+            fadeOutScript.DestroyAFOCommand();
             Debug.Log("Fetched !");
         }
 
@@ -221,6 +222,10 @@ public class RobotController : MonoBehaviour
         else if (SceneManager.GetActiveScene().name == "Stage_2")
         {
             SceneManager.LoadScene("Stage_3");
+        }
+        else if (SceneManager.GetActiveScene().name == "Stage_3")
+        {
+            SceneManager.LoadScene("StageSelect");
         }
 
         yield return null;

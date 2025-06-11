@@ -12,6 +12,9 @@ public class CodeblockFlowview : MonoBehaviour
     private GameObject xrInputSystemObj;
     private XRInputSystem xrInputSystem;
 
+    [SerializeField]
+    private CodeblockGenerator codeBlockGen;
+
     private float scrollVelocity = 1.0F;
 
     [SerializeField]
@@ -29,7 +32,8 @@ public class CodeblockFlowview : MonoBehaviour
         Vector2 damp = new Vector2(-dampingFactor, -dampingFactor) * xrInputSystem.ScrollRatio * Time.deltaTime;
         xrInputSystem.ScrollRatio = xrInputSystem.ScrollRatio * scrollVelocity + damp;
         scrollRatio += xrInputSystem.ScrollRatio * Time.deltaTime;
-        scrollRatio.y = Mathf.Clamp(scrollRatio.y, 0.0F, 2.384F);
+        scrollRatio.y = Mathf.Clamp(scrollRatio.y, 0.0F, 0.3F);
+        scrollRatio.x = Mathf.Clamp(scrollRatio.x, 0.09F, 0.09F + (0.3F * Mathf.Max(codeBlockGen.GetBlockOrderCount() - 6, 0)));
 
         if (GameOrderPanel.transform.childCount <= 0)
             return;
@@ -39,7 +43,7 @@ public class CodeblockFlowview : MonoBehaviour
             GameOrderPanel.transform.GetChild(0).transform.rotation = transform.rotation;
             GameOrderPanel.transform.GetChild(0).transform.position = transform.position
                 - GameOrderPanel.transform.GetChild(0).transform.forward * 0.07F
-                - GameOrderPanel.transform.GetChild(0).transform.right * 0.7F
+                - GameOrderPanel.transform.GetChild(0).transform.right * (0.7F + scrollRatio.x)
                 - GameOrderPanel.transform.GetChild(0).transform.up * 0.15F;
 
             for (int i = 1; i < GameOrderPanel.transform.childCount; i++)

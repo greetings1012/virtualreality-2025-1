@@ -98,7 +98,7 @@ GameObject:
   - component: {fileID: 5495355506104443929}
   - component: {fileID: 8274690792512920710}
   - component: {fileID: 1629290244111204222}
-  m_Layer: 5
+  m_Layer: 0
   m_Name: DescriptionBackground
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -210,7 +210,7 @@ GameObject:
   - component: {fileID: 683063249161631298}
   - component: {fileID: 84390457321934321}
   - component: {fileID: 2589123349388435182}
-  m_Layer: 5
+  m_Layer: 0
   m_Name: NameBackground
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -324,7 +324,7 @@ GameObject:
   - component: {fileID: 4966479122767465800}
   - component: {fileID: 3138821631759906615}
   - component: {fileID: 4033520058130316281}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Stage Preview
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -368,8 +368,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Size: {x: 2, y: 2.4698544, z: 1}
+  m_Center: {x: 0, y: 0.7349271, z: 0}
 --- !u!54 &6387640836286660987
 Rigidbody:
   m_ObjectHideFlags: 0

@@ -5,8 +5,8 @@ public class FadeOutScript : MonoBehaviour
 {
     [SerializeField]
     private Material fadeMaterial;
-    [SerializeField]
-    private float fadeTime = 3.0F;
+
+    private float fadeTime = 4.0F;
     private float currTime = 0.0F;
 
     private bool flag = false;

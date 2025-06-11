@@ -201,7 +201,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   fadeMaterial: {fileID: 2100000, guid: c9ce8acb41b8d464782b68329a0c0ec4, type: 2}
-  fadeTime: 3
 --- !u!1001 &26817830
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1796,6 +1795,7 @@ MonoBehaviour:
   GameOrderPanel: {fileID: 773510888}
   XRCamera: {fileID: 2043018301}
   xrInputSystemObj: {fileID: 617799600}
+  codeBlockGen: {fileID: 124789297}
   isHorizontal: 1
 --- !u!65 &504642154
 BoxCollider:
@@ -4515,6 +4515,7 @@ MonoBehaviour:
   GameOrderPanel: {fileID: 68090258}
   XRCamera: {fileID: 2043018301}
   xrInputSystemObj: {fileID: 617799600}
+  codeBlockGen: {fileID: 124789297}
   isHorizontal: 1
 --- !u!65 &948996890
 BoxCollider:
@@ -5044,6 +5045,7 @@ MonoBehaviour:
   GameOrderPanel: {fileID: 1381953800}
   XRCamera: {fileID: 2043018301}
   xrInputSystemObj: {fileID: 617799600}
+  codeBlockGen: {fileID: 124789297}
   isHorizontal: 0
 --- !u!65 &1116334954
 BoxCollider:
@@ -7632,7 +7634,7 @@ Rigidbody:
   m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 80
+  m_Constraints: 112
   m_CollisionDetection: 0
 --- !u!114 &1827246872
 MonoBehaviour:
@@ -7647,8 +7649,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   desiredRotationEuler: 90
-  robotMovementTotalTime: 1.5
   commandCompleted: 0
+  isClearCondition: 0
+  isGameClear: 0
   fadeOutScriptObject: {fileID: 26143333}
   destinationObject: {fileID: 1708177348}
 --- !u!1001 &1854476669

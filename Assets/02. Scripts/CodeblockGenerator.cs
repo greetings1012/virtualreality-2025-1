@@ -23,6 +23,12 @@ public class CodeblockGenerator : MonoBehaviour
 
     private BlockSystem blockSystem = null;
 
+    public int GetBlockOrderCount()
+    {
+        return orderBlockObject.Count;
+        //return blockSystem.blockSequence.Count;
+    }
+
     void Start()
     {
         blockSystem = GetComponent<BlockSystem>();
