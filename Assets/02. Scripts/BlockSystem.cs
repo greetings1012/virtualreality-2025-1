@@ -21,7 +21,7 @@ public class BlockSystem : MonoBehaviour
     public RobotController robotController;
 
     [Header("Execution Settings")]
-    public float executionDelay = 0.5f;
+    public float executionDelay = 0.5F;
     private int currentBlockIndex = 0;
     private bool isExecuting = false;
 
@@ -36,8 +36,21 @@ public class BlockSystem : MonoBehaviour
         }
     }
 
+    void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.R))
+        {
+            Debug.Log(blockSequence.Count);
+            foreach (var i in blockSequence)
+            {
+                Debug.Log("test: " + i.actionName);
+            }
+        }
+    }
+
     public void AddBlock(CodeBlock block)
     {
+        Debug.Log("ADDED !!!! => " + block.actionName);
         blockSequence.Add(block);
     }
 
@@ -64,7 +77,7 @@ public class BlockSystem : MonoBehaviour
             blockSequence.RemoveAt(index);
         }
     }
-
+    
     private bool IsForBlock(CodeBlock codeBlock)
     {
         return codeBlock.blockName == FOR_BLOCK_NAME;
@@ -92,7 +105,9 @@ public class BlockSystem : MonoBehaviour
     {
         for (int i = 0; i < repeatCount; i++)
         {
+            robotController.commandCompleted = false;
             robotController.ExecuteAction(actionBlock.actionName);
+            yield return new WaitUntil(() => robotController.commandCompleted);
             yield return new WaitForSeconds(executionDelay);
         }
 
@@ -109,7 +124,9 @@ public class BlockSystem : MonoBehaviour
     {
         for (int i = 0; i < currentBlock.repeatCount; i++)
         {
+            robotController.commandCompleted = false;
             robotController.ExecuteAction(currentBlock.actionName);
+            yield return new WaitUntil(() => robotController.commandCompleted);
             yield return new WaitForSeconds(executionDelay);
         }
 
