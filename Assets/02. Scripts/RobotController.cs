@@ -1,4 +1,5 @@
 using System.Collections;
+using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -25,6 +26,11 @@ public class RobotController : MonoBehaviour
     
     private GameSystem gameSystem;
     public bool commandCompleted = false;
+    
+    // 게임 클리어를 위한 아이템을 먹었는지 확인하는 변수
+    public bool isClearCondition = false;
+    // 게임 클리어를 했는지 확인하는 변
+    public bool isGameClear = false;
 
     [SerializeField]
     private GameObject fadeOutScriptObject;
@@ -84,6 +90,22 @@ public class RobotController : MonoBehaviour
         targetPosition = FetchPosition(targetPosition);
 
         StartCoroutine(MovingForward(transform.position, targetPosition));
+    }
+    
+    void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag("GoalItem"))
+        {
+            Debug.Log("게임 클리어를 위한 조건 만족");
+            isClearCondition = true;
+            Destroy(other.gameObject);
+        }
+
+        if (other.CompareTag("Goal"))
+        {
+            Debug.Log("게임 클리어");
+            isGameClear = true;
+        }
     }
 
     private IEnumerator MovingForward(Vector3 origin, Vector3 targetPosition)
