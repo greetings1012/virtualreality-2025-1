@@ -1,6 +1,6 @@
 using System.Collections;
 using UnityEngine;
-
+using UnityEngine.SceneManagement;
 
 public class RobotController : MonoBehaviour
 {
@@ -11,7 +11,6 @@ public class RobotController : MonoBehaviour
     [SerializeField]
     private float robotMovementTotalTime = 1.5F; // 로봇이 한 보폭을 가는데 걸리는 총 시간 (기본: 1.5초)
 
-    [SerializeField]
     private Animator animator;
 
     // 로봇의 한 보폭(거리)에 관한 예측값 (오차가 다소 있다.)
@@ -27,8 +26,17 @@ public class RobotController : MonoBehaviour
     private GameSystem gameSystem;
     public bool commandCompleted = false;
 
+    [SerializeField]
+    private GameObject fadeOutScriptObject;
+    private FadeOutScript fadeOutScript;
+    [SerializeField]
+    private GameObject destinationObject;
+    private Animator destination;
+
     private void Start()
     {
+        destination = destinationObject.GetComponent<Animator>();
+        fadeOutScript = fadeOutScriptObject.GetComponent<FadeOutScript>();
         animator = GetComponent<Animator>();
 
         initialPosition = transform.position;
@@ -162,9 +170,38 @@ public class RobotController : MonoBehaviour
         if (!isCollided)
         {
             Debug.Log("타일간의 위치가 맞지 않습니다 ! 타일의 위치를 조정해주세요 !");
+            fadeOutScript.AnimateFadeOut();
         }
 
         return targetPos;
+    }
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (collision.collider.name == "DEST")
+        {
+            fadeOutScript.DestroyAFOCommand();
+            animator.SetTrigger("danceTrigger");
+            destination.SetTrigger("danceTrigger");
+
+            StartCoroutine(LoadNextScene(3.0F));
+        }
+    }
+
+    IEnumerator LoadNextScene(float wait)
+    {
+        yield return new WaitForSeconds(wait);
+
+        if (SceneManager.GetActiveScene().name == "Stage_1")
+        {
+            SceneManager.LoadScene("Stage_2");
+        }
+        else if (SceneManager.GetActiveScene().name == "Stage_2")
+        {
+            SceneManager.LoadScene("Stage_3");
+        }
+
+        yield return null;
     }
 
     public void ResetToInitialPosition()

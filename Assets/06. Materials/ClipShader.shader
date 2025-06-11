@@ -44,6 +44,7 @@ Shader "Unlit/ClipShader"
             float3 _TargetBoxHalfSize;
             float3 _TargetBoxCenter;
             float4 _Color;
+            int _Always;
 
             v2f vert (appdata v)
             {
@@ -66,7 +67,7 @@ Shader "Unlit/ClipShader"
                 float3 relativePos = localPos - _TargetBoxCenter;
                 float3 diff = abs(relativePos) - _TargetBoxHalfSize;
 
-                if (any(diff.xy > 0.0001F))
+                if (any(diff.xy > 0.0001F) && _Always == 0)
                 {
                     clip(-1);
                 }

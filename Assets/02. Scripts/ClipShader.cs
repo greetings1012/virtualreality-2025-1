@@ -55,6 +55,18 @@ public class BoxClipMaterialSetter : MonoBehaviour
         {
             targetBoxObject = FindInSceneRecursive("BlockPanel");
         }
+        else if (transform.parent.parent.name == "BlgMsgContent")
+        {
+            targetBoxObject = FindInSceneRecursive("BlgMsg");
+        }
+        else if (transform.parent.parent.name == "ForExpContent")
+        {
+            targetBoxObject = FindInSceneRecursive("ForExpPanel");
+        }
+        else if (transform.parent.parent.name == "MvMsgContent")
+        {
+            targetBoxObject = FindInSceneRecursive("MvMsg");
+        }
     }
 
     void Update()
@@ -67,6 +79,17 @@ public class BoxClipMaterialSetter : MonoBehaviour
 
         mat.SetTexture("_MainTex", originMaterial.GetTexture("_BaseMap"));
         mat.SetColor("_Color", originMaterial.GetColor("_BaseColor"));
+        mat.SetInt("_Always", 0);
+
+        if(transform.parent.parent.name == "BlockPanel")
+        {
+            mat.SetInt("_Always", 1);
+        }
+        else if (transform.parent.parent.name == "BlgMsgContent" || transform.parent.parent.name == "MvMsgContent") // for문 상세 내역
+        {
+            mat.SetInt("_Always", 1);
+            transform.parent.rotation = targetBoxObject.transform.rotation;
+        }
 
         mat.SetMatrix("_TargetWorldToLocal", targetBoxObject.transform.worldToLocalMatrix);
         mat.SetVector("_TargetBoxHalfSize", new Vector4(0.5F, 0.5F, 0.5F, 0.0F));

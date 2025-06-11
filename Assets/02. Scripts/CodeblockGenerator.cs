@@ -31,32 +31,31 @@ public class CodeblockGenerator : MonoBehaviour
         AddBlock("RotateLeft", "RotateLeft", 1);
         AddBlock("RotateRight", "RotateRight", 1);
         AddBlock("for", "for", 1);
-        AddBlock("n1", "n1", 1);
-        AddBlock("n2", "n2", 1);
-        AddBlock("n3", "n3", 1);
-        AddBlock("n4", "n4", 1);
-        AddBlock("n5", "n5", 1);
-        AddBlock("n6", "n6", 1);
+        AddBlock("n1", "n1", 1, true);
+        AddBlock("n2", "n2", 1, true);
+        AddBlock("n3", "n3", 1, true);
+        AddBlock("n4", "n4", 1, true);
+        AddBlock("n5", "n5", 1, true);
+        AddBlock("n6", "n6", 1, true);
     }
 
-    void Update()
+    public void AddOrderBlock(GameObject orderBlock, bool isForExpCommand = false)
     {
-    }
+        if (!isForExpCommand)
+        {
+            orderBlockObject.Add(Instantiate(orderBlock, blockOrderContent.transform));
+        }
 
-    public void AddOrderBlock(GameObject orderBlock)
-    {
-        orderBlockObject.Add(Instantiate(orderBlock, blockOrderContent.transform));
-        
         foreach(var i in listBlockObject)
         {
-            if (i.go.name + "(Clone)" == orderBlock.name)
+            if (i.go.name + "(Clone)" == orderBlock.name || i.go.name == orderBlock.name)
             {
                 blockSystem.AddBlock(i.block);
             }
         }
     }
 
-    public void AddBlock(string blockName, string actionName, int repeatCount)
+    public void AddBlock(string blockName, string actionName, int repeatCount, bool isForExpression = false)
     {
         CodeObject co = new CodeObject();
 
@@ -68,7 +67,9 @@ public class CodeblockGenerator : MonoBehaviour
         string prefabsName = "Prefabs/" + actionName;
 
         co.block = cb;
-        co.go = Instantiate((GameObject)Resources.Load(prefabsName), blockListContent.transform);
+        if (isForExpression)
+            co.go = (GameObject)Resources.Load(prefabsName);
+        else co.go = Instantiate((GameObject)Resources.Load(prefabsName), blockListContent.transform);
         co.go.name = actionName;
 
         listBlockObject.Add(co);

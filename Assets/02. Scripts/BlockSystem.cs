@@ -36,8 +36,21 @@ public class BlockSystem : MonoBehaviour
         }
     }
 
+    void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.R))
+        {
+            Debug.Log(blockSequence.Count);
+            foreach (var i in blockSequence)
+            {
+                Debug.Log("test: " + i.actionName);
+            }
+        }
+    }
+
     public void AddBlock(CodeBlock block)
     {
+        Debug.Log("ADDED !!!! => " + block.actionName);
         blockSequence.Add(block);
     }
 
