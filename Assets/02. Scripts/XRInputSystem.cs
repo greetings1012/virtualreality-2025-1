@@ -78,7 +78,7 @@ public class XRInputSystem : MonoBehaviour
         Debug.DrawRay(ray.origin, ray.direction, Color.red, 1.0F);
 
         RaycastHit hit;
-        if (Physics.Raycast(ray, out hit, 10000.0F, LayerMask.GetMask(mask)))
+        if (Physics.Raycast(ray, out hit, 100000.0F, LayerMask.GetMask(mask)))
         {
             result.parent = hit.transform.parent.gameObject;
             result.go = hit.transform.gameObject;
@@ -175,7 +175,7 @@ public class XRInputSystem : MonoBehaviour
         Vector2 ls = ctx.ReadValue<Vector2>();
         Vector2 rs = ctx.ReadValue<Vector2>();
 
-        ScrollRatio.x = Mathf.Abs(rs.x) > Mathf.Abs(ls.x) ? -rs.x : -ls.x;
+        ScrollRatio.x = Mathf.Abs(rs.x) > Mathf.Abs(ls.x) ? rs.x : ls.x;
         ScrollRatio.y = Mathf.Abs(rs.y) > Mathf.Abs(ls.y) ? -rs.y : -ls.y;
     }
 

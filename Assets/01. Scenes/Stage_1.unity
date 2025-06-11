@@ -201,7 +201,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   fadeMaterial: {fileID: 2100000, guid: c9ce8acb41b8d464782b68329a0c0ec4, type: 2}
-  fadeTime: 3
 --- !u!1001 &26817830
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -720,7 +719,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   blockSequence: []
-  robotController: {fileID: 1827246872}
+  robotController: {fileID: 0}
   executionDelay: 0.5
 --- !u!4 &124789299
 Transform:
@@ -1796,6 +1795,7 @@ MonoBehaviour:
   GameOrderPanel: {fileID: 773510888}
   XRCamera: {fileID: 2043018301}
   xrInputSystemObj: {fileID: 617799600}
+  codeBlockGen: {fileID: 124789297}
   isHorizontal: 1
 --- !u!65 &504642154
 BoxCollider:
@@ -4515,6 +4515,7 @@ MonoBehaviour:
   GameOrderPanel: {fileID: 68090258}
   XRCamera: {fileID: 2043018301}
   xrInputSystemObj: {fileID: 617799600}
+  codeBlockGen: {fileID: 124789297}
   isHorizontal: 1
 --- !u!65 &948996890
 BoxCollider:
@@ -5044,6 +5045,7 @@ MonoBehaviour:
   GameOrderPanel: {fileID: 1381953800}
   XRCamera: {fileID: 2043018301}
   xrInputSystemObj: {fileID: 617799600}
+  codeBlockGen: {fileID: 124789297}
   isHorizontal: 0
 --- !u!65 &1116334954
 BoxCollider:
@@ -7647,8 +7649,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   desiredRotationEuler: 90
-  robotMovementTotalTime: 1.5
   commandCompleted: 0
+  isClearCondition: 0
+  isGameClear: 0
   fadeOutScriptObject: {fileID: 26143333}
   destinationObject: {fileID: 1708177348}
 --- !u!1001 &1854476669
@@ -8458,6 +8461,10 @@ PrefabInstance:
     - target: {fileID: 1318303238961424, guid: 3470766f22e216142aa097c5eaa5a1c1, type: 3}
       propertyPath: m_Name
       value: DEST
+      objectReference: {fileID: 0}
+    - target: {fileID: 1318303238961424, guid: 3470766f22e216142aa097c5eaa5a1c1, type: 3}
+      propertyPath: m_TagString
+      value: Goal
       objectReference: {fileID: 0}
     - target: {fileID: 4315780710204044, guid: 3470766f22e216142aa097c5eaa5a1c1, type: 3}
       propertyPath: m_LocalScale.x
@@ -9708,24 +9715,24 @@ Transform:
 SceneRoots:
   m_ObjectHideFlags: 0
   m_Roots:
-  - {fileID: 1635316743}
-  - {fileID: 706104292}
   - {fileID: 624531456}
   - {fileID: 203844589}
   - {fileID: 1549290753}
   - {fileID: 979949091}
   - {fileID: 1029938536}
-  - {fileID: 617799602}
-  - {fileID: 124789299}
   - {fileID: 1812376934}
-  - {fileID: 1732936356}
-  - {fileID: 44482621}
   - {fileID: 167689082}
   - {fileID: 1858198666}
   - {fileID: 605771256}
+  - {fileID: 1605719533}
+  - {fileID: 706104292}
+  - {fileID: 1635316743}
+  - {fileID: 617799602}
+  - {fileID: 124789299}
+  - {fileID: 1732936356}
+  - {fileID: 44482621}
   - {fileID: 1179501792}
   - {fileID: 717758683}
   - {fileID: 584003988}
   - {fileID: 953360946}
   - {fileID: 713652735}
-  - {fileID: 1605719533}
