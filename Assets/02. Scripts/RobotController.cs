@@ -127,23 +127,45 @@ public class RobotController : MonoBehaviour
             yield return null;
         }
 
+        transform.position = targetPosition;
+
+        commandCompleted = true;
+    }
+
+    private IEnumerator RotateCour(Quaternion a, Quaternion b)
+    {
+        float step = Time.deltaTime;
+        float movedDistance = 0.0F;
+
+        while (movedDistance <= 1.0F)
+        {
+            transform.rotation = Quaternion.Slerp(a, b, movedDistance);
+            movedDistance += step;
+
+            yield return null;
+        }
+
+        transform.rotation = b;
+
         commandCompleted = true;
     }
 
     public void RotateLeft()
     {
+        Quaternion a = transform.rotation;
         transform.Rotate(-Vector3.up * desiredRotationEuler);
-        // transform.Rotate(Vector3.up, -rotationSpeed * Time.deltaTime);
+        Quaternion b = transform.rotation;
 
-        commandCompleted = true;
+        StartCoroutine(RotateCour(a, b));
     }
 
     public void RotateRight()
     {
+        Quaternion a = transform.rotation;
         transform.Rotate(Vector3.up * desiredRotationEuler);
-        // transform.Rotate(Vector3.up, rotationSpeed * Time.deltaTime);
+        Quaternion b = transform.rotation;
 
-        commandCompleted = true;
+        StartCoroutine(RotateCour(a, b));
     }
 
     public void ExecuteAction(string actionName)
@@ -167,14 +189,14 @@ public class RobotController : MonoBehaviour
     // 그냥 앞으로 움직이기만 하면 xz위치가 미묘하게 안맞는데 그걸 맞추는 함수
     private Vector3 FetchPosition(Vector3 targetPos)
     {
-        Vector3 magicNumber = Vector3.up * 1.5F;
+        Vector3 magicNumber = Vector3.up * 3.0F;
 
         Ray ray = new Ray();
         ray.direction = -Vector3.up;
         ray.origin = targetPos + magicNumber;
 
         RaycastHit hit;
-        bool isCollided = Physics.Raycast(ray, out hit, 1.5F, LayerMask.GetMask("Tile"));
+        bool isCollided = Physics.Raycast(ray, out hit, 100.0F, LayerMask.GetMask("Tile"));
         Debug.DrawRay(targetPos, -Vector3.up, Color.red, 200.0F);
 
         if (isCollided)
@@ -213,6 +235,7 @@ public class RobotController : MonoBehaviour
 
     IEnumerator LoadNextScene(float wait)
     {
+        Instantiate((GameObject)Resources.Load("par"), transform.position, Quaternion.identity);
         yield return new WaitForSeconds(wait);
 
         if (SceneManager.GetActiveScene().name == "Stage_1")
