@@ -8,14 +8,14 @@ public class RobotController : MonoBehaviour
     [Header("Movement Settings")]
     [SerializeField]
     private float desiredRotationEuler = 90.0F;
-    [Header("Movement Settings")]
+    // [Header("Movement Settings")]
 
-    private float robotMovementTotalTime = 0.8F; // 로봇이 한 보폭을 가는데 걸리는 총 시간 (기본: 1.5초)
+    private float robotMovementTotalTime = 1.5F; // 로봇이 한 보폭을 가는데 걸리는 총 시간 (기본: 1.5초)
 
     private Animator animator;
 
     // 로봇의 한 보폭(거리)에 관한 예측값 (오차가 다소 있다.)
-    private float desiredDeltaPosition = 5.0F;
+    private float desiredDeltaPosition = 4.0F;
 
     [Header("Components")]
     private Rigidbody rb;
@@ -189,7 +189,7 @@ public class RobotController : MonoBehaviour
     // 그냥 앞으로 움직이기만 하면 xz위치가 미묘하게 안맞는데 그걸 맞추는 함수
     private Vector3 FetchPosition(Vector3 targetPos)
     {
-        Vector3 magicNumber = Vector3.up * 3.0F;
+        Vector3 magicNumber = Vector3.up * 5.0F;
 
         Ray ray = new Ray();
         ray.direction = -Vector3.up;
@@ -204,7 +204,7 @@ public class RobotController : MonoBehaviour
             // 비용이 큰 연산입니다. 참고 해주세요.
             // 최적화 전략1. 프리팹의 anchor를 정중앙으로 바꾼다.
             // 최적화 전략2. Start에서 모든 Tile의 프리팹 Renderer Component정보를 미리 Load해서 hashing형식으로 가져온다.
-            Vector3 center = hit.transform.gameObject.GetComponent<Renderer>().bounds.center;
+            Vector3 center = hit.transform.Find("Target").transform.position;
 
             targetPos = new Vector3(center.x, targetPos.y, center.z);
             fadeOutScript.DestroyAFOCommand();
