@@ -15,7 +15,7 @@ public class RobotController : MonoBehaviour
     private Animator animator;
 
     // 로봇의 한 보폭(거리)에 관한 예측값 (오차가 다소 있다.)
-    private float desiredDeltaPosition = 4.0F;
+    private float desiredDeltaPosition = 5.0F;
 
     [Header("Components")]
     private Rigidbody rb;
